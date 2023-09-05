@@ -2,7 +2,7 @@
     <div>
         <p>Componente de mensagem</p>
         <div>
-            <form id="burguer-form">
+            <form id="burguer-form" @submit="createBurguer">
                 <div class="input-container">
                     <label for="nome">Nome do Cliente:</label>
                     <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite seu nome">
@@ -10,34 +10,23 @@
                 <div class="input-container">
                     <label for="pao">Escolha o pão:</label>
                     <select type="text" id="pao" name="pao" v-model="pao">
-                        <option value="">Selecione seu pão</option>
+                        <option selected>Selecione seu pão</option>
+                        <option v-for="pao in paesdata" :key="pao.id" :value="pao.tipo">{{ pao.tipo }}</option>
                         
                     </select>
                 </div>
                 <div class="input-container">
                     <label for="carne">Escolha a carne:</label>
                     <select type="text" id="carne" name="carne" v-model="carne">
-                        <option value="">Selecione o tipo de carne</option>
-                        
+                        <option selected>Selecione o tipo de carne</option>
+                    <option v-for="carne in carnesdata" :key="carne.id" :value="carne.tipo">{{ carne.tipo }}</option>
                     </select>
                 </div>
                 <div id="opcionais-container" class="input-container">
                     <label id="opcionais-title" for="opcionais">Escolha aos opcionais:</label>
-                    <div class="checkbox-container">
-                        <input type="checkbox" name="opcionais" v-model="opcionais" value="salame">
-                        <span>Salame</span>
-                    </div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" name="opcionais" v-model="opcionais" value="salame">
-                        <span>Salame</span>
-                    </div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" name="opcionais" v-model="opcionais" value="salame">
-                        <span>Salame</span>
-                    </div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" name="opcionais" v-model="opcionais" value="salame">
-                        <span>Salame</span>
+                    <div class="checkbox-container" v-for="opcionaldata in opcionaisdata" :key="opcionaldata.id">
+                        <input style="cursor: pointer;" type="checkbox" name="opcionais" v-model="opcionais" :value="opcionaldata.tipo">
+                        <span>{{ opcionaldata.tipo }}</span>
                     </div>
                 </div>
                 <div class="input-container">
@@ -53,8 +42,58 @@ export default{
     name: 'BurguerForm',
     data(){
         return{
+            paesdata: null, 
+            carnesdata: null,
+            opcionaisdata: null,
 
+            nome: null,
+            pao: null,
+            carne: null,
+            opcionais: [],
+
+            status: 'Solicitado',
+            msg: null
         }
+    },
+    methods:{
+        async getIngredients(){
+            const req = await fetch('http://localhost:3000/ingredientes');
+            const data = await req.json();
+
+            this.paesdata = data.paes;
+            this.carnesdata = data.carnes;
+            this.opcionaisdata = data.opcionais;
+            
+        },
+        async createBurguer(event){
+            event.preventDefault()
+
+            
+            const data ={
+                nome: this.nome,
+                carne: this.carne,
+                pao: this.pao,
+                opcionais: Array.from(this.opcionais),
+                status: 'Solicitado'
+            }
+            const dataJson = JSON.stringify(data)
+
+            const req = await fetch("http://localhost:3000/burgers", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: dataJson
+            })
+        
+            const res = await req.json();
+
+            this.pao='';
+            this.nome='';
+            this.carne='';
+            this.opcionais='';
+        }
+    },
+    mounted(){
+        this.getIngredients()
     }
 }
 </script>
