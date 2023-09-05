@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>Componente de mensagem</p>
+        <Menssage :msg="msg" v-show="msg"/>
         <div>
             <form id="burguer-form" @submit="createBurguer">
                 <div class="input-container">
@@ -10,16 +10,15 @@
                 <div class="input-container">
                     <label for="pao">Escolha o pão:</label>
                     <select type="text" id="pao" name="pao" v-model="pao">
-                        <option selected>Selecione seu pão</option>
-                        <option v-for="pao in paesdata" :key="pao.id" :value="pao.tipo">{{ pao.tipo }}</option>
-                        
+                        <option value="">Selecione seu pão</option>
+                        <option v-for="pao in paesdata" :key="pao.id" :value="pao.tipo">{{ pao.tipo }}</option>     
                     </select>
                 </div>
                 <div class="input-container">
                     <label for="carne">Escolha a carne:</label>
                     <select type="text" id="carne" name="carne" v-model="carne">
-                        <option selected>Selecione o tipo de carne</option>
-                    <option v-for="carne in carnesdata" :key="carne.id" :value="carne.tipo">{{ carne.tipo }}</option>
+                        <option value="">Selecione o tipo de carne</option>
+                        <option v-for="carne in carnesdata" :key="carne.id" :value="carne.tipo">{{ carne.tipo }}</option>
                     </select>
                 </div>
                 <div id="opcionais-container" class="input-container">
@@ -38,8 +37,14 @@
 </template>
 
 <script>
+import Menssage
+from '../components/Menssage.vue';
+
 export default{
     name: 'BurguerForm',
+    components:{
+        Menssage
+    },
     data(){
         return{
             paesdata: null, 
@@ -85,6 +90,9 @@ export default{
             })
         
             const res = await req.json();
+
+            this.msg = `Pedido de ${this.nome} realizado com sucesso`;
+            setTimeout(()=> this.msg='', 3000)
 
             this.pao='';
             this.nome='';
