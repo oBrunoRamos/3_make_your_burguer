@@ -79,42 +79,17 @@
   ],
   "burgers": [
     {
-      "nome": "Bruno Ramos Oliveira dos Santos",
-      "carne": "Picanha",
-      "pao": "3 Queijos",
+      "nome": "Bruno Ramos",
+      "carne": "Maminha",
+      "pao": "Italiano Branco",
       "opcionais": [
-        "Salame"
+        "Bacon",
+        "Tomate",
+        "Cheddar",
+        "Pepino"
       ],
       "status": "Solicitado",
       "id": 1
-    },
-    {
-      "nome": "Bruno Ramos Oliveira dos Santos Oliveira dos Santos",
-      "carne": "Alcatra",
-      "pao": "Italiano Branco",
-      "opcionais": [
-        "Bacon"
-      ],
-      "status": "Solicitado",
-      "id": 2
-    },
-    {
-      "nome": "Bruno",
-      "carne": "Alcatra",
-      "pao": "Selecione seu pão",
-      "opcionais": [
-        "Bacon"
-      ],
-      "status": "Solicitado",
-      "id": 3
-    },
-    {
-      "nome": "Bruno Ramos Oliveira dos Santos",
-      "carne": "",
-      "pao": "",
-      "opcionais": [],
-      "status": "Solicitado",
-      "id": 4
     }
   ]
 }
